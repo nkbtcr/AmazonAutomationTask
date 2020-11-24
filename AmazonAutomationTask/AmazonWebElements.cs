@@ -25,5 +25,21 @@ namespace AmazonAutomationTask
 
         [FindsBy(How = How.XPath, Using = "//span[contains(@class,'a-offscreen') and text()='£4.00']")]
         public IWebElement ItemPrice { get; set; }
+
+        [FindsBy(How = How.Id, Using = "add-to-cart-button")]
+        public IWebElement AddItemToBasket { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//div[@id='huc-v2-gifting-container']")]
+        public IWebElement ElementIsAGift { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//h1[@class='a-size-medium a-text-bold']")]
+        public IWebElement AddedToBasket { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//span[contains(text(), ' (1 item): ')]")]
+        public IWebElement ItemQuantityToTheBasket { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//span[@class='a-color-price hlb-price a-inline-block a-text-bold']")]
+        public IWebElement ItemPriceInTheBasket { get; set; }
     }
+    
 }

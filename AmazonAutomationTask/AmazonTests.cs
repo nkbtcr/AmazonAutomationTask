@@ -34,7 +34,9 @@ namespace AmazonAutomationTask
         public void Dispose()
         {
             if (driver != null)
+            {
                 driver.Dispose();
+            }
         }
 
         [Test]
@@ -103,6 +105,63 @@ namespace AmazonAutomationTask
             var expectedCover = "Paperback";            
 
             Assert.AreEqual(expectedCover, actualCover);
+        }
+
+        [Test]
+        public void AddItemToBasket()
+        {
+            SelectElementFromDropDown(elements.FilterByItemCategory, "Books");
+
+            elements.SearchInputField.SendKeys(searchedItem);
+
+            elements.SearchButton.Click();
+
+            WaitForCondition(driver, ExpectedConditions.ElementToBeClickable(elements.SearchButton), 15000);
+
+            elements.SearchResultElement.Click();
+
+            WaitForCondition(driver, ExpectedConditions.ElementToBeClickable(elements.PaperbackCoverElement), 15000);
+
+            elements.PaperbackCoverElement.Click();
+
+            elements.AddItemToBasket.Click();
+
+            WaitForCondition(driver, ExpectedConditions.ElementToBeClickable(elements.ElementIsAGift), 10000);
+
+            elements.ElementIsAGift.Click();
+
+            Assert.IsTrue(elements.ElementIsAGift.Enabled);
+        }
+
+        [Test]
+        public void PrePurcahseActions()
+        {
+            SelectElementFromDropDown(elements.FilterByItemCategory, "Books");
+
+            elements.SearchInputField.SendKeys(searchedItem);
+
+            elements.SearchButton.Click();
+
+            WaitForCondition(driver, ExpectedConditions.ElementToBeClickable(elements.SearchButton), 15000);
+
+            elements.SearchResultElement.Click();
+
+            WaitForCondition(driver, ExpectedConditions.ElementToBeClickable(elements.PaperbackCoverElement), 15000);
+
+            elements.PaperbackCoverElement.Click();
+
+            elements.AddItemToBasket.Click();
+
+            WaitForCondition(driver, ExpectedConditions.ElementToBeClickable(elements.ElementIsAGift), 10000);
+
+            elements.ElementIsAGift.Click();
+
+            Assert.Multiple(()=> 
+            {
+                Assert.AreEqual("Added to Basket", elements.AddedToBasket.Text);
+                Assert.True(elements.ItemQuantityToTheBasket.Text.Contains("1 item"));
+                Assert.AreEqual("£4.00", elements.ItemPriceInTheBasket.Text);
+            });
         }
     }
 }
